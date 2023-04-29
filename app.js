@@ -1,3 +1,6 @@
+headerLayout("navbar-container");
+footerLayout("footer-container");
+
 const hamburger = document.querySelector("#hamburger")
 const menu = document.querySelector("#menu")
 const moon = document.querySelector("#moon")
