@@ -1,6 +1,6 @@
 "use strict";
 
-const version = "0.0.3";
+const version = "0.0.4";
 
 async function beforeLoad() {
   const html = `

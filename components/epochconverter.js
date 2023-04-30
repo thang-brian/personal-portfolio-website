@@ -10,7 +10,7 @@ function updateEpochTime() {
 function updateLocation(){
     const locationSpan = document.getElementById("location");
     const infoIP = sessionStorage.getItem("infoIP") ? JSON.parse(sessionStorage.getItem("infoIP")) : {};
-    let location = "Location: " + infoIP.city + ", " + infoIP.region + ", " + infoIP.country;
+    let location = "Location: " + infoIP.country;
     location += " - IP: " + infoIP.ip;
     locationSpan.textContent = location;
 }
