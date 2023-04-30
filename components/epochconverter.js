@@ -84,6 +84,7 @@ formUnixToTime.addEventListener('submit', function(e) {
         second: 'numeric',
         timeZone: timezone
     }).format(date);
-    divresultConvert.innerHTML = `<p class="text-2xl font-semibold text-center">Time: ${formattedTime}</p>`;
+    divresultConvert.innerHTML = `<p class="text-2xl font-semibold text-center">Time: ${formattedTime} | Date: ${date.toLocaleDateString()}
+    </p>`;
 });
 
