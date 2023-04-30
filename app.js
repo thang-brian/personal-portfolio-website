@@ -33,16 +33,21 @@ loadLayout().then(() => {
 const reloadCount = 0;
 
 window.addEventListener("hashchange", async () => {
-  if (reloadCount === 0) {
-    window.location.reload();
-    reloadCount++;
-  }
   if (window.location.hash === "#epochconverter") {
+    if (reloadCount === 0) {
+      window.location.reload();
+      reloadCount++;
+    }
     beforeLoad();
     emptyScript("script-after");
     await mainLayout("main-content", "templates/epochconverter.html");
     await loadScript("components/epochconverter.js", "script-after");
-  } else {
+  }
+  if (window.location.hash === "#" || window.location.hash === "") {
+    if (reloadCount === 0) {
+      window.location.reload();
+      reloadCount++;
+    }
     beforeLoad();
     emptyScript("script-after");
     await mainLayout("main-content", "templates/main.html");
