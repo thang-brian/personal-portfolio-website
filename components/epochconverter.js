@@ -72,9 +72,12 @@ const formUnixToTime = document.querySelector('.form-unix-to-time');
 const divresultConvert = document.getElementById('result-convert');
 formUnixToTime.addEventListener('submit', function(e) {
     e.preventDefault();
-    const unixTime = document.getElementById('unix-time').value;
-    const timezone = document.getElementById('timezone-select').value;
-    const date = new Date(unixTime * 1000);
+    let unixTime = document.getElementById('unix-time').value;
+    if (unixTime === '') {
+        unixTime = Math.floor(new Date().getTime() / 1000);
+    }
+    let timezone = document.getElementById('timezone-select').value;
+    let date = new Date(unixTime * 1000);
     const formattedTime = new Intl.DateTimeFormat('en-US', {
         hour: 'numeric',
         minute: 'numeric',
