@@ -15,7 +15,7 @@ function getTimezone() {
         renderTimezone(timezones);
     }
     else {
-        fetch(`http://api.timezonedb.com/v2.1/list-time-zone?key=${API_KEY}&format=json`)
+        fetch(`https://api.timezonedb.com/v2.1/list-time-zone?key=${API_KEY}&format=json`)
         .then(response => response.json())
         .then(data => {
             const timezones = data.zones.map(zone => {
@@ -27,7 +27,8 @@ function getTimezone() {
             });
             localStorage.setItem('timezones', JSON.stringify(timezones));
             renderTimezone(timezones);
-        });
+        })
+        .catch(error => alert(error));
     }
 }
 
