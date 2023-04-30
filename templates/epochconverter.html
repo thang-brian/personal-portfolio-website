@@ -1,0 +1,28 @@
+<div class="text-center text-lg py-8">
+    The current Unix epoch time is: <span id="epoch-time"></span>
+</div>  
+
+<form class="w-full mx-auto px-4 sm:px-8 max-w-3xl form-unix-to-time">
+    <h3 class="text-lg font-medium mb-4">Convert epoch to human-readable date and vice versa</h3>
+    <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <div>
+        <label for="unix-time" class="text-sm font-medium">Epoch Time (in seconds):</label>
+        <input id="unix-time" type="number" class="w-full mt-1 px-2 py-1 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300" placeholder="Enter epoch time" required>
+        </div>
+    
+        <div>
+        <label for="timezone-input" class="text-sm font-medium">Timezone:</label>
+        <select
+            id="timezone-select"
+            class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        >
+            <option class="py-2" value="">Select timezone</option>
+        </select>
+      
+        </div>
+    </div>
+    <div class="flex items-center justify-between">
+    <button type="submit" id="convert-btn" class="px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md focus:outline-none">Convert</button>
+    <div id="result-convert" class="text-gray-500 font-medium"></div>
+    </div>
+</form>

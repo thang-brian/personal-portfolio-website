@@ -1,24 +1,40 @@
-headerLayout("navbar-container");
-footerLayout("footer-container");
+const hash = window.location.hash;
 
-const hamburger = document.querySelector("#hamburger")
-const menu = document.querySelector("#menu")
-const moon = document.querySelector("#moon")
-const body = document.querySelector("body")
-const hLinks = document.querySelectorAll("#hLink")
+async function loadLayout() {
+  await headerLayout("header-container");
+  await beforeLoad();
+  
+  if (window.location.pathname === "/" || window.location.pathname === "/index.html") {
+    if (hash === "#epochconverter") {
+      mainLayout("main-content", "templates/epochconverter.html");
+      loadScript("components/epochconverter.js", "script-after");
+    } else {
+      mainLayout("main-content", "templates/main.html");
+      await loadScript("autotyping.js", "script-after");
+    }
+  }
 
-hamburger.addEventListener("click", ()=>{
-  menu.classList.toggle("hidden")
-  hamburger.classList.toggle("bg-white")
-})
+  await footerLayout("footer-container");
+}
 
-hLinks.forEach(link=>{
-  link.addEventListener("click", ()=>{
-    menu.classList.toggle("hidden")
-    hamburger.classList.toggle("bg-white")
-  })
-})
+loadLayout().then(() => {
+  const menu = document.querySelector("#navbar-dropdown");
+  const moon = document.querySelector("#moon");
+  const body = document.querySelector("body");
 
-moon.addEventListener("click", ()=>{
-  body.classList.toggle("dark")
-})
+  moon.addEventListener("click", () => {
+    body.classList.toggle("dark");
+  });
+});
+
+window.addEventListener("hashchange", async () => {
+  if (window.location.hash === "#epochconverter") {
+    beforeLoad();
+    await mainLayout("main-content", "templates/epochconverter.html");
+    await loadScript("components/epochconverter.js", "script-after");
+  } else {
+    beforeLoad();
+    await mainLayout("main-content", "templates/main.html");
+  }
+});
+
