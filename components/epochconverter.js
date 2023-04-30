@@ -7,6 +7,13 @@ function updateEpochTime() {
   epochTimeSpan.textContent = epochTime.toString();
 }
 
+function updateLocation(){
+    const locationSpan = document.getElementById("location");
+    const infoIP = getinfoIP();
+    const location = "Location: " + infoIP.city + ", " + infoIP.region + ", " + infoIP.country;
+    locationSpan.textContent = location;
+}
+
 function getTimezone() {
   let API_KEY = "ZY596ITU112Q";
   if (localStorage.getItem("timezones")) {
@@ -34,21 +41,21 @@ function getTimezone() {
 
 function getinfoIP() {
   let API_KEY = "54adc278c2b630";
-  if (localStorage.getItem("infoIP")) {
-    return JSON.parse(localStorage.getItem("infoIP"));
+  if (sessionStorage.getItem("infoIP")) {
+    return JSON.parse(sessionStorage.getItem("infoIP"));
   } else {
     fetch(`https://ipinfo.io/?token=${API_KEY}`)
       .then((response) => response.json())
       .then((data) => {
         const infoIP = data;
-        localStorage.setItem("infoIP", JSON.stringify(infoIP));
+        sessionStorage.setItem("infoIP", JSON.stringify(infoIP));
         return infoIP;
       });
   }
 }
 
 function renderTimezone(timezones) {
-  const timezoneSelect = document.getElementById("timezone-select");
+  const timezoneSelect = document.querySelectorAll(".timezone-select");
   const infoIP = getinfoIP();
   const contryCode = infoIP.country;
   const html = timezones.map((timezone) => {
@@ -58,9 +65,11 @@ function renderTimezone(timezones) {
       return `<option value="${timezone.zoneName}">${timezone.zoneName}</option>`;
     }
   });
-  timezoneSelect.innerHTML = html.join("");
+  timezoneSelect.forEach((select) => {
+    select.innerHTML = html.join("");
+  });
 }
-
+updateLocation();
 setInterval(updateEpochTime, 1000);
 
 getTimezone();
@@ -73,8 +82,9 @@ formUnixToTime.addEventListener("submit", function (e) {
   if (unixTime === "") {
     unixTime = Math.floor(new Date().getTime() / 1000);
   }
-  let timezone = document.getElementById("timezone-select").value;
+  let timezone = document.getElementById("timezone-select-unix").value;
   let date = new Date(unixTime * 1000);
+  console.log(date);
   const formattedTime = new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
     minute: "numeric",
@@ -84,3 +94,27 @@ formUnixToTime.addEventListener("submit", function (e) {
   divresultConvert.innerHTML = `<p class="text-2xl font-semibold text-center">Time: ${formattedTime} | Date: ${date.toLocaleDateString()}
     </p>`;
 });
+
+const formTimeToUnix = document.querySelector(".form-time-to-unix");
+const divresultConvert2 = document.getElementById("result-convert-unix");
+formTimeToUnix.addEventListener("submit", function (e) {
+    e.preventDefault();
+    let dateTime = document.getElementById("date-time").value; // gia tri cua input datetime-local
+    if (dateTime === "") {
+      dateTime = new Date();
+    }
+    let timezone = document.getElementById("timezone-select-date").value;
+    const date = new Date(dateTime);
+    const formattedTime = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    timeZone: timezone,
+    }).format(date); 
+    const unixTime = Math.floor(new Date(formattedTime).getTime() / 1000);
+    divresultConvert2.innerHTML = `<p class="text-2xl font-semibold text-center">Unix Time: ${unixTime}
+    </p>`;
+    }
+);
