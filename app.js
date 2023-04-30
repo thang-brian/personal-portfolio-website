@@ -8,6 +8,7 @@ async function loadLayout() {
     if (hash === "#epochconverter") {
       await mainLayout("main-content", "templates/epochconverter.html");
       await loadScript("components/epochconverter.js", "script-after");
+      
     } else {
       await mainLayout("main-content", "templates/main.html");
       await loadScript("autotyping.js", "script-after");
@@ -27,14 +28,23 @@ loadLayout().then(() => {
   });
 });
 
+const reloadCount = 0;
+
 window.addEventListener("hashchange", async () => {
+  if (reloadCount === 0) {
+    window.location.reload();
+    reloadCount++;
+  }
   if (window.location.hash === "#epochconverter") {
     beforeLoad();
+    emptyScript("script-after");
     await mainLayout("main-content", "templates/epochconverter.html");
     await loadScript("components/epochconverter.js", "script-after");
   } else {
     beforeLoad();
+    emptyScript("script-after");
     await mainLayout("main-content", "templates/main.html");
+    await loadScript("autotyping.js", "script-after");
   }
 });
 

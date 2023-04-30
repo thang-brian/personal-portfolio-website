@@ -1,6 +1,6 @@
 "use strict";
 
-const version = "0.0.2";
+const version = "0.0.3";
 
 async function beforeLoad() {
   const html = `
@@ -60,4 +60,9 @@ async function loadScript(url, id) {
   } else {
     document.head.appendChild(script);
   }
+}
+
+function emptyScript(id) {
+  const script = document.getElementById(id);
+  script.innerHTML = "";
 }
