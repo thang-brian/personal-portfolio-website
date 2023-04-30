@@ -9,8 +9,9 @@ function updateEpochTime() {
 
 function updateLocation(){
     const locationSpan = document.getElementById("location");
-    const infoIP = getinfoIP();
-    const location = "Location: " + infoIP.city + ", " + infoIP.region + ", " + infoIP.country;
+    const infoIP = sessionStorage.getItem("infoIP") ? JSON.parse(sessionStorage.getItem("infoIP")) : {};
+    let location = "Location: " + infoIP.city + ", " + infoIP.region + ", " + infoIP.country;
+    location += " - IP: " + infoIP.ip;
     locationSpan.textContent = location;
 }
 
@@ -39,24 +40,9 @@ function getTimezone() {
   }
 }
 
-function getinfoIP() {
-  let API_KEY = "54adc278c2b630";
-  if (sessionStorage.getItem("infoIP")) {
-    return JSON.parse(sessionStorage.getItem("infoIP"));
-  } else {
-    fetch(`https://ipinfo.io/?token=${API_KEY}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const infoIP = data;
-        sessionStorage.setItem("infoIP", JSON.stringify(infoIP));
-        return infoIP;
-      });
-  }
-}
-
 function renderTimezone(timezones) {
   const timezoneSelect = document.querySelectorAll(".timezone-select");
-  const infoIP = getinfoIP();
+  const infoIP = sessionStorage.getItem("infoIP") ? JSON.parse(sessionStorage.getItem("infoIP")) : {}
   const contryCode = infoIP.country;
   const html = timezones.map((timezone) => {
     if (timezone.countryCode === contryCode) {
@@ -84,7 +70,6 @@ formUnixToTime.addEventListener("submit", function (e) {
   }
   let timezone = document.getElementById("timezone-select-unix").value;
   let date = new Date(unixTime * 1000);
-  console.log(date);
   const formattedTime = new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
     minute: "numeric",

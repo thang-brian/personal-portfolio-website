@@ -16,6 +16,8 @@ async function loadLayout() {
   }
 
   await footerLayout("footer-container");
+
+  getinfoIP();
 }
 
 loadLayout().then(() => {

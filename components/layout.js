@@ -66,3 +66,18 @@ function emptyScript(id) {
   const script = document.getElementById(id);
   script.innerHTML = "";
 }
+
+function getinfoIP() {
+  let API_KEY = "54adc278c2b630";
+  if (sessionStorage.getItem("infoIP")) {
+    return;
+  } else {
+    fetch(`https://ipinfo.io/?token=${API_KEY}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const infoIP = data;
+        sessionStorage.setItem("infoIP", JSON.stringify(infoIP));
+        return infoIP;
+      });
+  }
+}
