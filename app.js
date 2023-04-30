@@ -6,10 +6,10 @@ async function loadLayout() {
   
   if (window.location.pathname === "/" || window.location.pathname === "/index.html") {
     if (hash === "#epochconverter") {
-      mainLayout("main-content", "templates/epochconverter.html");
-      loadScript("components/epochconverter.js", "script-after");
+      await mainLayout("main-content", "templates/epochconverter.html");
+      await loadScript("components/epochconverter.js", "script-after");
     } else {
-      mainLayout("main-content", "templates/main.html");
+      await mainLayout("main-content", "templates/main.html");
       await loadScript("autotyping.js", "script-after");
     }
   }
